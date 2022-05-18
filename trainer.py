@@ -77,12 +77,12 @@ def preprocesser(train_data,valid_data,test_data):
     test_data = test_data[test_data['label'] != -1]
 
     # change type in  columns
-    data_types = {'claim': 'string', 'explanation': 'string', 'fact_checkers': 'string', 'main_text': 'string',
-                  'sources': 'string', 'subjects': 'string',
-                  'claim_id': 'int', 'label': 'int'}
-    # data_types = {'claim': 'str', 'explanation': 'str', 'fact_checkers': 'str', 'main_text': 'str',
-    #                           'sources': 'str', 'subjects': 'str',
-    #                           'claim_id': 'int', 'label': 'int'}
+    # data_types = {'claim': 'string', 'explanation': 'string', 'fact_checkers': 'string', 'main_text': 'string',
+    #               'sources': 'string', 'subjects': 'string',
+    #               'claim_id': 'int', 'label': 'int'}
+    data_types = {'claim': 'str', 'explanation': 'str', 'fact_checkers': 'str', 'main_text': 'str',
+                              'sources': 'str', 'subjects': 'str',
+                              'claim_id': 'int', 'label': 'int'}
     train_data = train_data.astype(data_types)
     valid_data = valid_data.astype(data_types)
     test_data = test_data.astype(data_types)
@@ -123,13 +123,21 @@ if __name__ == '__main__':
 
     parser = ArgumentParser()
     parser.add_argument("-model", "--model", help="Model name", type=str,default="roberta")
-    parser.add_argument("-modelversion", "--modelversion", help="Version of model",default="roberta-base", type=int)
-    parser.add_argument("-path", "--outputpath", help="Path for output", default="", type=str)
+    parser.add_argument("-modelversion", "--modelversion", help="Version of model",default="roberta-base", type=str)
+    parser.add_argument("-path", "--outputpath", help="Path to save results", default="", type=str)
+    parser.add_argument("-outputdir", "--outputdir", help="Path to save checkpoint", default="outputTransformer", type=str)
+    parser.add_argument("-epochs", "--epochs", help="Number of epochs", default=10, type=int)
+    parser.add_argument("-batch_size", "--batch_size", help="Batch size", default=64, type=int)
+    parser.add_argument("-use_cuda", "--use_cuda", help="Train on GPU", default=True, type=bool)
 
     args = parser.parse_args()
     model=args.model
     modelname=args.modelversion
     mypath =args.outputpath
+    epochs = args.epochs
+    batch_size =args.batch_size
+    outputdir =args.outputdir
+    use_cuda =args.use_cuda
     if mypath=="":
         path = '/content/drive/My Drive/Colab Notebooks/Onclusive_work/'
     else:
@@ -159,8 +167,8 @@ if __name__ == '__main__':
     test_df = test_data[['text', 'labels']]
 
     # Optional model configuration
-    model_args = ClassificationArgs(num_train_epochs=5, train_batch_size=64,
-                                    output_dir="outputTransformer", overwrite_output_dir=True,
+    model_args = ClassificationArgs(num_train_epochs=epochs, train_batch_size=batch_size,
+                                    output_dir=outputdir, overwrite_output_dir=True,
                                     use_early_stopping=True)
 
     # os.environ['CUDA_LAUNCH_BLOCKING'] = "1"
@@ -168,7 +176,7 @@ if __name__ == '__main__':
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     # Create a ClassificationModel num_labels=4, use_cuda=device,cuda_device=0
     model = ClassificationModel(
-        model, modelname, args=model_args, use_cuda=False, num_labels=4
+        model, modelname, args=model_args, use_cuda=use_cuda, num_labels=4
     )
 
     # Train the model

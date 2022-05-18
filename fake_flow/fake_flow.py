@@ -469,8 +469,8 @@ class fake_flow:
         try:
             df_summary_table = pd.DataFrame(self.summary_table, index=[0])
         except:
-            # df_summary_table = pd.DataFrame(self.summary_table)
-            df_summary_table = pd.DataFrame(self.summary_table, index=[0])
+            df_summary_table = pd.DataFrame(self.summary_table)
+            # df_summary_table = pd.DataFrame(self.summary_table, index=[0])
         df_summary_table.sort_values('score', inplace=True, ascending=False)
         df_summary_table.to_csv('./processed_files/saved_models/results_{}_{}.csv'.format(self.__class__.__name__, self.model_name), header=True, index=False)
 
@@ -520,7 +520,7 @@ class fake_flow:
             return accuracy_score(self.Y_dev, Y_dev_pred)
 
 if __name__ == '__main__':
-    dataset = 'MultiSourceFake'# 'PubHealth'
+    dataset = 'PubHealth'
     segments_number = 10
     search = 0
     type_ = "train"#"test"
@@ -529,7 +529,7 @@ if __name__ == '__main__':
 
     newproc= False
     parser = ArgumentParser()
-    parser.add_argument("-d", "--dataset", help="Dataset name MultiSourceFake,ReCOVery,PubHealth", default=dataset)
+    parser.add_argument("-d", "--dataset", help="Dataset name ReCOVery,PubHealth", default=dataset)
     parser.add_argument("-sn", "--segments_number", help="Number of segments - the default value is 20", default=segments_number, type=int)
     parser.add_argument("-s", "--search", help="search for best parameters", default=search, type=int)
     parser.add_argument("-m", "--mode", help="train or test", default=type_)

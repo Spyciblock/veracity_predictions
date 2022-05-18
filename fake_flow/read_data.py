@@ -24,9 +24,7 @@ class origin_preparation():
         self.clean_text = clean_text
 
     ## use only Pubhealths dataset
-    # def custom_features_plit(dataset, content, segments_number=10, n_jobs=-1, emo_rep='frequency', path="",
-    #                          model="Fakeflow", return_features=True,
-    #                          text_segments=False, clean_text=True):
+
     def custom_features_plit(self,dataname,content):
         content_features = []
         """Extract features, segment text, clean it."""
@@ -43,19 +41,18 @@ class origin_preparation():
 
     def prepare_input(self,dataname='PubHealth'):
         ##path with ./data/
-        if dataname == "MultiSourceFake":
-            content = pd.read_csv('./data/{}/sample.csv'.format(dataname))
-            ## my modif to use MST data
+        # if dataname == "MultiSourceFake":
+        #     content = pd.read_csv('./data/{}/sample.csv'.format(dataname))
 
         #new path with form = ./data/direc/
-        # if dataname == "ReCOVery":
-        #     #preprocess files:rename,drop,gather text  recovery-news-data
-        #     content = pd.read_csv('./data/{}/dataset/ReCOVery.csv'.format(dataname))
-        #     content = content.rename({'reliability': 'label'}, axis=1)
-        #     content = content[["title", "body_text", "label","type"]]
-        #     content['title'] = content['title'].fillna(' ')
-        #     content['content'] = content['title'] + content['body_text']
-        #     content = content.drop(columns=['title', 'body_text'])
+        if dataname == "ReCOVery":
+            #preprocess files:rename,drop,gather text  recovery-news-data
+            content = pd.read_csv('./data/{}/dataset/ReCOVery.csv'.format(dataname))
+            content = content.rename({'reliability': 'label'}, axis=1)
+            content = content[["title", "body_text", "label","type"]]
+            content['title'] = content['title'].fillna(' ')
+            content['content'] = content['title'] + content['body_text']
+            content = content.drop(columns=['title', 'body_text'])
 
         if dataname == "PubHealth":
             # preprocess for PubHealth

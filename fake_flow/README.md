@@ -1,5 +1,5 @@
 
-## Onclusive Machine Learning Challenge (Anthony Taing)
+## Onclusive Machine Learning Challenge (Anthony T.)
 This is the code of the system proposed in my previous paper on a custom project related to Fake
 news detection, this is based on the paper cited below.
 
@@ -104,6 +104,12 @@ Parameters:
 `-model`: model to use (string), "roberta","bert","albert"...
 
 `-modelversion`: select a version of the model (string),"roberta-base","bert-base-uncased","albert-base-v2"...
+
+`-path`: Path to save results (optional)
+
+`-outputdir`: Path of directory to save checkpoints
+
+`-use_cuda`: Train with GPU (default True)
 
 Run the model :
 - `python trainer.py -model "roberta" -modelversion "roberta-base" -path "outputs/"`
