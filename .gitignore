@@ -1,0 +1,6 @@
+.idea
+fake_flow-master/data/fakeNewsDatasets
+fake_flow-master/data/ReCOVery
+fake_flow-master/data/MultiSourceFake
+__pycache__
+
